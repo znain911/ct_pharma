@@ -1,0 +1,84 @@
+{% include "header.html" %}
+<body>
+    <h1>hello {{ name }}</h1>
+    <h1>hello {{ cars.1 }}</h1>
+  
+    <h1>hello {{ thislist|safe }}</h1>
+    <!-- time documentation https://www.w3schools.com/django/ref_tags_now.php -->
+    <h1>{% now "Y-m-d G:i:s" %}</h1>
+    It is {% now "jS F Y H:i" %} <br>
+    {{ today }} <br>
+    {% for car in cars%}
+       {{ forloop.counter }} {{ car }} <br>
+    {% endfor %}
+    <h1> {{ array.John|safe }}</h1>
+
+    {%  for arrays in array.items %}
+    
+    
+            {{ arrays }} <br>
+    
+  
+{%      endfor %}
+
+{%  for key , value in array.items %}
+    
+    
+            {{ key  }} {{ value }} <br>
+    
+  
+{%      endfor %}
+
+        <br>
+
+        {%  for arrays in array.values %}
+    
+    
+            {{ arrays }} <br>
+    
+  
+{%      endfor %}
+
+<br>
+
+    {%  for arrays in array.keys %}
+    
+    
+            {{ arrays }} <br>
+    
+  
+{%      endfor %}
+
+<br>
+
+    {%  for people in peoples.items %}
+      {%  for item in people %}
+    
+            {{ item.age }} <br>
+    
+  
+  {%      endfor %}
+{%      endfor %}
+
+<br>
+
+    <form>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+
+</body>
+</html>

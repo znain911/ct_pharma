@@ -1,0 +1,962 @@
+{% include "header.html" %}
+{% load static %}
+
+    <body>
+        
+        <!--sub menu-->
+
+        <div class="container margin padding  w100">
+
+            <div class="row">
+
+                <div class="col-sm-2 pr0" style=" width: 1sww
+                5%;">
+
+    <div class="menu">
+
+        <div class="side-bar2">
+
+            <div class="sideMenuTop">
+                <img class="logo" src="{%  static 'images/badas.png' %}" id="sidebar-logo">
+                <h4 id="logo-text">CT Health Medicine</h4>
+            </div>
+
+
+            <div class="item" style="margin-top: 15%;">
+                <ul class="sub-menu">
+                    {% if request.session.role != '3'%}
+                    <li >
+                        <a href=' {% url "gr_home" %}' class="sub-item stocktransferreq1"
+                            id="stocktransferreq1">Good Received</a>
+                    </li>
+
+                    
+                    <li style=" background-color: #004a88;">
+                        <a href='{% url "in_home" %}' class="sub-item stocktransferreq1"
+                            id="stocktransferreq1">Inventory</a>
+                    </li>
+
+                    {% endif %}
+                    {% if request.session.role == 'admin'%}
+                    <li>
+                        <a href='{% url "registration" %}' class="sub-item stocktransferreq1"
+                            id="stocktransferreq1">Registration</a>
+                    </li>
+                    {% endif %}
+
+                    {% if request.session.role != '1'%}
+                    <li>
+                        <a href='{% url "sales" %}' class="sub-item stocktransferreq1"
+                            id="stocktransferreq1">Sales</a>
+                    </li>
+                    {% endif %}
+
+                    
+                    <li>
+                        <a href='{% url "logout" %}' class="sub-item stocktransferreq1"
+                            id="stocktransferreq1">Logout</a>
+                    </li>
+                </ul>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+                </div>
+
+                <!--search bar, topnav & profile avatar-->
+
+                <div class="col-sm-10 px-4" style="background-color: #002E55;">
+                    <br />
+                    <br />
+
+                    <!--Summary View-->
+                    <div class="col-md-12 2" id="viewSummary">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Summary</h5>
+                            <button type="button" class="btn-close btn-close-white" id="Xclose" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body" >
+                            <form action="">
+
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+                                        <h5 class="modal-text">DATE: <span id="requisitionDate"></span>
+                                        </h5>
+
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <h5 class="modal-text">OUTLET  :  <span id="outlet"></span></h5>
+
+                                    </div>
+
+
+                                </div>
+
+                                <br />
+
+                                <div class="row ">
+
+
+                                    <div class="col-sm-4">
+                                        <h5 class="modal-text">PO ID: <span id="poId"></span>
+                                        </h5>
+
+                                    </div>
+
+
+                                    <div class="col-sm-4">
+                                        <h5 class="modal-text" id="reqClient">PR ID : <span id="prId"> </span>
+                                        </h5>
+
+                                    </div>
+
+                                    <br /> <br />
+                                    <div class="col-sm-4">
+                                        <h5 class="modal-text" id="reqClient">PURCHASE ID : <span
+                                                id="puId"> </span></h5>
+
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <h5 class="modal-text">COMPANY NAME :  <span id="requisitionCompany"></span>
+                                        </h5>
+                                        <input id="requisitionCompanyId"  value = "" type="hidden" readonly>
+                                        <input id="invoice"  value = "" type="hidden" readonly>
+                                        <input id="inventoryId"  value = "" type="hidden" readonly>
+
+                                    </div>
+
+                                    {% if request.session.role == 'admin' or request.session.role == '4'%}
+                 
+                    
+
+                                        <div class="col-sm-4">
+                                            <span id="">Transfer From</span>
+
+                                            <select class="input-design4 myInput" id="tranferFrom" name="">
+                                                <option value=""></option>
+                                                {% for fromOutlet in fromOutlets %}
+                                                    <option value="{{fromOutlet.id}}">{{fromOutlet.outlet}}</option>
+                                                {% endfor %}
+                                            
+                                            </select>
+                                            <input type="hidden" readonly id = "tranferFromCounting">
+                                            
+
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <span id="">Transfer To</span>
+
+                                            <select class="input-design4 myInput" id="tranferTo" name="">
+
+                                                <option value=""></option>
+                                            
+                                            
+                                                
+                                            </select>
+                                            
+
+                                        </div>
+
+
+                                    {% endif %}
+                                </div>
+
+                                <!-- <table class="table">
+                                    <thead class="tbodyresult3">
+                                        <tr>
+                                            <th scope="col">SL</th>
+                                            <th scope="col">ITEM</th>
+                                            <th scope="col">QTY(rcv)</th>
+                                            <th scope="col">QTY(stock)</th>
+                                            <th scope="col">QTY(Total stock)</th>
+                                            <th scope="col">TP(avg)</th>
+                                            <th scope="col">Vat(avg)</th>
+                                            <th scope="col">Total with vat(stock)</th>
+                                            <th scope="col">MRP / quantity(avg)</th>
+                                            <th scope="col">Total MRP(stock)</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="allProductTable">
+
+
+
+                                    </tbody>
+                                </table> -->
+                                <div id="allProductTable">
+
+                                </div>
+
+
+
+                            </form>
+                        </div>
+                    </div>
+                    <br>
+
+                    <!--INVENTORY tab-->
+                    <div class="col-sm-12 " style="background-color: #002E55;">
+
+                        <!--PURCHASE tab-->
+
+                        <div class="procure_purchase-tab" id="goodReceivedTable" style="background-color: #200303;"> <br>
+
+                            <div class="sc">
+                                <h6 class="topnav2 ib">Stock <span id = "stockDate"></span> </h6>
+
+
+                                <div class="buttonbox">
+                                    <button class=" buttons" id="allItem" style="    padding: 8px 10px 10px 10px;">All Items</button>
+                                    <button class=" buttons" id="CompanyList" style="    padding: 8px 10px 10px 10px;">All Company</button>
+                                    <input type="hidden" id="reids">
+                                    <input type="hidden" id="allItemLoad">
+                                    <button class="fa fa-search buttons" href="#Search" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal2"></button>
+                                    <button class="fa-solid fa-filter buttons" id="filterSearch"></button>
+                                    <button class="fa-solid fa-print buttons" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal3"></button>
+                                    <button class="fa-solid fa-download buttons" href="#Download"></button>
+                                </div>
+                            </div>
+                            <div id = "inventoryListContainer">
+                                
+
+                                
+                            </div>
+                            
+
+                            
+                        </div>
+
+                        <!--filter -->
+                        <div id="filterBox">
+                            <!--Filter-->
+                            <div class="modal-header">
+                                <h3 class="modal-title" id="exampleModalLabel">TRANSFER</h3>
+
+                            </div>
+
+                            <div class="modal-body">
+                                <form action="">
+
+                                    <div class="container margin padding w100">
+
+
+                                        <div class="row">
+
+
+                                            <div class="col-sm-6">
+                                                <h5 class="modal-text">OUTLET NAME</h5>
+                                                <select class="input-design4" id="purchaseReqFor" name="" disabled>
+
+                                                    <option value="fiat">BADAS Pharmacy BIRDEM 25th Counter</option>
+                                                  
+                                                </select>
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <h5 class="modal-text">DATE</h5>
+
+                                                <input class="input-design2" type="text" id="demo" name="datefilter"
+                                                    value="">
+
+
+                                            </div>
+
+                                            <br> <br>
+
+                                            <div class="row" style="margin-top: 1%; margin-bottom: 1%;">
+
+
+                                                <div class="col-sm-6">
+                                                    <h5 class="modal-text">COMPANY NAME</h5>
+                                                    <select class="input-design4 company" style="margin-bottom: 3%;" name = "coId" id = "coId">
+                                                        <option></option>
+                                                        {% for company in companies %}
+                                                        <option value="{{company.id}}">{{company.companyName}}</option>
+                                                        {% endfor %}
+                                                
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-sm-6" id="inventoryProduct">
+                                                    <h5 class="modal-text">Prodcut Name</h5>
+                                                    <select class="input-design4 company" style="margin-bottom: 3%;">
+                                                        <option></option>
+                                                        <option>Lisinopril</option>
+                                                        <option>Atorvastatin (Lipitor)</option>
+                                                        <option>Levothyroxine (Synthroid)</option>
+                                                        <option>Omeprazole (Prilosec)</option>
+                                                        <option>Sertraline (Zoloft)</option>
+                                                        <option>Acetaminophen (Tylenol)</option>
+                                                        <option>Ibuprofen (Advil, Motrin)</option>
+                                                
+                                                    </select>
+
+                                                </div>
+
+                                                <div class="col-sm-6" >
+                                                    <h5 class="modal-text">Invoice</h5>
+                                                    <input type="text" name = "invoice" id = "invoice">
+                                                </div>
+
+                                                <div class="col-sm-6" >
+                                                    <h5 class="modal-text">Purchase ID</h5>
+                                                    <input type="text" name = "purchaseId" id = "purchaseId">
+                                                </div>
+
+
+
+                                            </div>
+                                            
+
+
+                                        </div>
+                                </form>
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <button type="button" id="filterGoodReceived" class="btn btn-primary"
+                                    style="background-color: #7dc855;">APPLY
+                                    FILTER</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--CSV  File-->
+
+                    <div class="col-sm-12 " id="csvContent" style="background-color: #002E55;">
+                        <div class="procure_purchase-tab" id="goodReceivedTable" style="background-color: #200303;"> <br>
+                            <div class="sc">
+                                <h6 class="topnav2 ib">Download the CSV</h6>
+
+
+                                <div class="buttonbox">
+                                    <button class="fa fa-search buttons" href="#Search" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal2"></button>
+                                    <button class="fa-solid fa-filter buttons"></button>
+                                    <button class="fa-solid fa-print buttons" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal3"></button>
+                                    <button class="fa-solid fa-download buttons" href="#Download"></button>
+                                </div>
+
+
+                            </div>
+
+                            <br><br><br>
+
+                            <div>
+                                <button
+                                    style="margin-left: 40%;height: 100px;width: 300px;background-color:#002E55; border-radius: 5%;font-size: 24px;"
+                                    id="downloadCSV">Download CSV</button>
+                            </div>
+
+                            <br><br><br>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+
+                <!--Search-->
+                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+
+                    <div class="modal-dialog">
+
+                        <div class="modal-content">
+                            <!--Filter-->
+                            <div class="modal-header">
+                                <h3 class="modal-title" id="exampleModalLabel">SEARCH</h3>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form action="">
+
+                                    <div class="container margin padding w50">
+
+
+                                        <div class="row">
+
+
+
+                                            <div class="col-sm-6">
+                                                <h5 class="modal-text">SELECT OPTIONS</h5>
+                                                <select class="input-design4" id="purchaseReqFor" name="">
+
+                                                    </option>
+                                                    <option value="saab"></option>
+                                                    <option value="fiat">PO ID</option>
+                                                    <option value="fiat">PR ID</option>
+                                                    <option value="fiat">PURCHASE ID</option>
+
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <br>
+
+                                        <div class="row">
+
+
+
+                                            <div class="col-sm-6">
+                                                <input type="text" name="" id="" style="width: 100%;">
+                                            </div>
+
+                                        </div>
+
+                                        <br>
+
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="  color: #000000;  border-color: transparent;
+                            background-color: #e1e8ee;">CANCEL FILTER</button>
+                                <button type="button" class="btn btn-primary" style="background-color: #7dc855;">APPLY
+                                    FILTER</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <!--toggle function on sub menus-->
+
+
+
+        <script>
+            //csv file
+            $(document).ready(function () {
+
+                $(document).on('click', '.stockBtn', function() {
+                    let puid = $('#puId').text().substring(4);
+                    let outletCode = $('#puId').text().slice(0,4);
+                    let fromid = $('#tranferFrom').val();
+                    let toid = $('#tranferTo').val();
+                    let companyId = $('#requisitionCompanyId').val();
+                    let invoice = $('#invoice').val();
+                    let inventoryId = $('#inventoryId').val();
+                    let exdt =  $(this).parent().prev().prev().prev().prev().prev().prev().prev().prev().val()
+                    let unit =  $(this).parent().prev().prev().prev().prev().prev().prev().prev().val()
+                    let sellingPrice =  $(this).parent().prev().prev().prev().prev().prev().prev().val()
+                    let buyPrice =  $(this).parent().prev().prev().prev().prev().prev().val()
+                    let medName =  $(this).parent().prev().prev().prev().prev().val()
+                    let generic =  $(this).parent().prev().prev().prev().val()
+                    let quantity =  $(this).parent().prev().prev().children('input').val()
+
+                    
+                    pcs = $(this).parent().prev().val();
+
+                    $.ajax({
+                            type: "GET",
+                            url: '{% url "transfer" %}',
+                            dataType: "json",
+                            data: 'puid='+ puid+'&outletCode='+outletCode+'&fromid='+fromid+'&toid='+toid+'&medName='+medName+'&generic='+generic+
+                                    '&quantity='+quantity+'&companyId='+companyId+'&invoice='+invoice+'&inventoryId='+inventoryId
+                                    +'&buyPrice='+buyPrice+'&sellingPrice='+sellingPrice+'&unit='+unit+'&exdt='+exdt,
+                            success: function( data ) {
+                                console.log(data.overflow);
+                                if(data.overflow == 'right'){
+                                    //console.log(data);
+                                    // $('#viewSummary').show(1000)
+                                    // $('#goodReceivedTable').hide(1000)
+                                    
+                                    alert('Can not transfer more than stock. Present Stock '+data.remainMed)
+                                    
+                                    
+                                }else if(data.overflow == 'wrong'){
+                                    alert('Stock Transfer Successful')
+                                }
+                                
+                                
+                            }
+                        });
+                    
+                    //console.log(quantity)
+                    //console.log(generic)
+
+                });
+
+                 $(document).on('change', '.stock', function()  {
+                //$(".stock").on("keyup", function () {
+                    
+                    let id = $('#tranferTo').val();
+
+                    if(id){
+
+                            let quantity = $(this).parent().next().val();
+                            let val = $(this).val();
+                            if (parseInt(quantity) < parseInt(val)){
+                                alert('Transfer amount should be less than QTY(rcv), current stock '+ quantity)
+                                $(this).parent().next().next().children().prop('disabled', true);
+                            }else if(val > 0 && val <= quantity){
+                                $(this).parent().next().next().children().prop('disabled', false);
+                            }
+                            
+                        
+                        //alert(quantity)
+
+                    }else{
+                        alert('Please Select Tranfer To outlet')
+                    }
+                    
+
+
+                });
+
+                $(document).on('change', '#tranferFrom', function() {
+                    
+                    let id = $(this).val();
+                    $('.mrpText').text(' ');
+                    if (id){
+                        $('.stock').show();
+                        $('.stockBtn').show();
+                        let tranferFromCounting = $('#tranferFromCounting').val();
+                        if (tranferFromCounting.indexOf(',') > -1) { 
+                            const list =  tranferFromCounting.split(',') 
+                            console.log(typeof(list))
+                        }
+                        console.log(tranferFromCounting);
+                        console.log(typeof(tranferFromCounting));
+
+                        $.ajax({
+                            type: "GET",
+                            url: '{% url "get_traoutletl_list" %}',
+                            dataType: "json",
+                            data: 'id='+ id+'&count='+'1',
+                            success: function( data ) {
+
+                                if(data){
+                                    //console.log(data.count);
+                                    //console.log(data.date.split("T"));
+                                    $('#tranferTo').html(data.view);
+                                    
+                                    
+                                    
+                                }
+                                
+                            }
+                        });
+
+
+                    }else{
+                        $('.stock').hide();
+                        $('.stockBtn').hide();
+                    }
+                    //alert(id)
+                });
+
+                $("#CompanyList").click(function () {
+                    $('#inventoryList').show();
+                    $('#inventoryListItem').hide();
+                    $('#inventoryList_wrapper').show();
+                    $('#inventoryListItem_wrapper').hide();
+                })
+
+                $("#allItem").click(function () {
+                    let reids = $('#reids').val()
+                    let allItemLoad = $('#allItemLoad').val()
+
+                    //alert(reids)
+                    if (reids){
+
+                        if(allItemLoad == '1'){
+                            $('#inventoryList').hide();
+                            $('#inventoryListItem').show();
+
+                            $('#inventoryList_wrapper').hide();
+                            $('#inventoryListItem_wrapper').show();
+                        }else{
+
+                    
+                            $.ajax({
+                                type: "GET",
+                                url: '{% url "get_inventry_all_item" %}',
+                                dataType: "json",
+                                data: 'reids='+ reids,
+                                success: function( data ) {
+
+                                    if(data.view){
+                                        console.log(data);
+                                        //console.log(data.date.split("T"));
+                                        $('#inventoryListContainer').append('<table class="table" id = "inventoryListItem"> </table>');
+                                        $('#inventoryListItem').html(data.view);
+                                        $('#inventoryListItem').show();
+                                        $('#inventoryList').hide();
+                                        $('#inventoryList_wrapper').hide();
+                                        $('#allItemLoad').val('1');
+                                        
+                                        $('#inventoryListItem').DataTable(
+                                            {lengthMenu:[5,10,25,50,100],pageLength:10,language:{paginate:{previous:"<i class='mdi mdi-chevron-left'>",next:"<i class='mdi mdi-chevron-right'>"}},drawCallback:function(){$(".dataTables_paginate > .pagination").addClass("pagination-rounded")}}
+                                        );
+                                        
+                                    }
+                                    
+                                }
+                            });
+                        }
+
+                    }else{
+                        alert('No Data Found')
+                    }
+
+
+                });
+
+                $("#downloadCSV").click(function () {
+                    // Sample data (replace this with your data)
+                    var data = [
+                        ["SL", "Product Name", "Generic Name", "Company", 'Purchase Id No', 'Expiry Date', 'Purchased', 'Buying Price', 'Quantity in Stock', 'MRP', 'Total Value'],
+                        ["1", "Nape", "Napa", 'XYZ Company', '1001', '7/09/2003', '1002', '540', '100', '50', '10', '1000'],
+                        ["2", "Nape", "Napa", 'XYZ Company', '1001', '7/09/2003', '1002', '540', '100', '50', '10', '1000'],
+                        ["3", "Nape", "Napa", 'XYZ Company', '1001', '7/09/2003', '1002', '540', '100', '50', '10', '1000'],
+                        ["4", "Nape", "Napa", 'XYZ Company', '1001', '7/09/2003', '1002', '540', '100', '50', '10', '1000'],
+
+                    ];
+
+                    var csvContent = "data:text/csv;charset=utf-8,";
+
+                    data.forEach(function (rowArray) {
+                        var row = rowArray.join(",");
+                        csvContent += row + "\r\n";
+                    });
+
+                    // Create a data URI and download link
+                    var encodedUri = encodeURI(csvContent);
+                    var link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", "inventory.csv");
+                    document.body.appendChild(link);
+
+                    // Trigger the download
+                    link.click();
+                });
+            });
+        </script>
+
+
+
+
+        <script>
+
+
+            
+        
+            //purchase requisition form-->
+
+            $(document).ready(() => {
+
+                $('#targetEvents').hide()
+
+                $('.sub-btn').click(function () {
+                    $(this).next('.sub-menu').slideToggle();
+                    $(this).find('.dropdown').toggleClass('rotate');
+                });
+
+                //hide
+                $('#viewSummary').hide()
+
+                $('#goodReceivedTable').hide()
+                $('#csvContent').hide()
+
+                //summary
+
+                $(document).on('click', '.viewEvent', function() {
+                    let inventoryId = $(this).val()
+                    //alert(inventoryId)
+
+                    $.ajax({
+                            type: "GET",
+                            url: '{% url "get_inventry_med" %}',
+                            dataType: "json",
+                            data: 'reqid='+ inventoryId,
+                            success: function( data ) {
+
+                                if(data){
+                                    //console.log(data.totalMedCount);
+                                    //console.log(data.date.split("T"));
+                                    $('#allProductTableList').remove();
+                                    $('#allProductTableList_wrapper').remove()
+                                    $('#requisitionCompany').text(data.companyName);
+                                    $('#requisitionCompanyId').val(data.companyId);
+                                    $('#invoice').val(data.invoice);
+                                    $('#inventoryId').val(data.inventoryId);
+                                    $('#outlet').text(data.outletName);
+                                    $('#tranferFromCounting').val(data.totalMedCount);
+                                    purchase_id = data.outlet_shortcode + data.purchase_id
+                                    $('#prId').text(data.pr_id);
+                                    $('#poId').text(data.po_id);
+                                    $('#puId').text(data.purchase_id);
+                                    $('#allProductTable').html(data.view);
+
+                                    $('#allProductTableList').DataTable(
+                                            {lengthMenu:[5,10,25,50,100],pageLength:10,language:{paginate:{previous:"<i class='mdi mdi-chevron-left'>",next:"<i class='mdi mdi-chevron-right'>"}},drawCallback:function(){$(".dataTables_paginate > .pagination").addClass("pagination-rounded")}}
+                                        );
+
+                                    if(data.date){
+                                        let date = data.date.split("T");
+                                        let splitdate = date[0].split("-");
+                                        $('#requisitionDate').text(splitdate[2]+'-'+splitdate[1]+'-'+splitdate[0]);
+                                    }
+                                    
+                                    // $('#goodReceivedTable').show(1000);
+                                    // $('#filterBox').hide(1000);
+                                }
+                                
+                            }
+                        });
+
+                    $('#viewSummary').show(1000)
+                    $('#goodReceivedTable').hide(1000)
+                })
+
+                //menu X Close
+                $(document).on('click', '#Xclose', () => {
+                    $('#viewSummary').hide(1000)
+                    $('#goodReceivedTable').show(1000)
+                    $('#tranferFrom').val('')
+                    $('#tranferTo').val('')
+
+                })
+
+
+
+
+
+
+                //filter area product hide/show
+                $('#inventoryProduct').hide()
+                $("select.company").change(function () {
+                    var selectedCompany = $(this).children("option:selected").val();
+                    console.log(selectedCompany)
+                    if (selectedCompany !== '') {
+
+                        $('#inventoryProduct').show()
+                    }
+
+
+                });
+
+
+
+
+
+
+                //calender
+
+
+                var date = new Date();
+                const yyyy = date.getFullYear();
+                let mm = date.getMonth() + 1; // Months start at 0!
+                let dd = date.getDate() ;
+
+                if (dd < 10) dd = '0' + dd;
+                if (mm < 10) mm = '0' + mm;
+
+                const formattedToday = mm + '/' + dd + '/' + yyyy;
+
+                $('#demo').daterangepicker({
+                    "timePickerSeconds": true,
+                    "autoApply": true,
+                    showCustomRangeLabel: false,
+                    "maxSpan": {
+                        "days": 30
+                    },
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+
+                    },
+                    locale: {
+                        format: "MM/DD/YYYY",
+                        separator: " - ",
+                        applyLabel: "Apply",
+                        cancelLabel: "Cancel",
+                        fromLabel: "From",
+                        toLabel: "To",
+                        customRangeLabel: "Custom",
+                        weekLabel: "W",
+                        daysOfWeek: [
+                            "Su",
+                            "Mo",
+                            "Tu",
+                            "We",
+                            "Th",
+                            "Fr",
+                            "Sa"
+                        ],
+                        monthNames: [
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December"
+                        ],
+                        "firstDay": 1
+                    },
+                    "alwaysShowCalendars": true,
+                    //"startDate": "07/20/2023",
+                    "startDate": formattedToday,
+                    //"endDate": "07/26/2023"
+                    "endDate": formattedToday
+
+                });
+
+
+                //css
+                $('.daterangepicker ').css('background-color', 'black')
+
+
+                $(document).on('keyup', '#invoice', () => {
+                    $('#coId').val(null);
+                    $('#purchaseId').val(null);
+                });
+
+                $(document).on('keyup', '#purchaseId', () => {
+                    $('#coId').val(null);
+                    $('#invoice').val(null);
+                });
+                //filter
+
+                $(document).on('click', '#filterGoodReceived', () => {
+
+
+                    var val = $('#demo').val();
+                    var coId = $('#coId').val();
+                    var invoice = $('#invoice').val();
+                    var purchaseId = $('#purchaseId').val();
+                    var datepicker = $('#demo').data('daterangepicker');
+                    var startDate = datepicker.startDate;
+                    var endDate = datepicker.endDate;
+
+                    
+                    //console.log(formattedToday)
+                    //console.log(endDate._i)
+
+                    if (startDate.isSame(endDate, 'day')) {
+
+                        var newDateFormat , mainDateFormat
+
+                        //$('#goodReceivedTable').show(1000);
+                        //$('#filterBox').hide(1000);
+                        if (startDate._i.indexOf('/') > -1)
+                        {   
+                            let date = startDate._i.split("/");
+
+                            onedayAdd = parseInt(date[1]) + 1
+                            if(onedayAdd < 10){
+                                onedayAdd = '0' + onedayAdd
+                            }
+                            mainDateFormat =  date[2]+"-"+date[0]+"-"+date[1]
+                            newDateFormat = date[2]+"-"+date[0]+"-"+onedayAdd
+                            //console.log(mainDateFormat)
+                        }else{
+                            let date = $('#demo').val();
+                            let splitDate = date.split(" ");
+                            let firstdate = splitDate[0].split("/");
+                            onedayAdd = parseInt(firstdate[1]) + 1
+                            if(onedayAdd < 10){
+                                onedayAdd = '0' + onedayAdd
+                            }
+                            mainDateFormat =  firstdate[2]+"-"+firstdate[0]+"-"+firstdate[1]
+                            newDateFormat =  firstdate[2]+"-"+firstdate[0]+"-"+onedayAdd
+                            //console.log(newDateFormat)
+                        }
+
+                        $.ajax({
+                            type: "GET",
+                            url: '{% url "get_inventry_day" %}',
+                            dataType: "json",
+                            data: 'date='+ newDateFormat+'&coId='+coId+'&invoice='+invoice+'&purchaseId='+purchaseId+'&datemain='+mainDateFormat,
+                            success: function( data ) {
+
+                                console.log(data);
+                                $('#inventoryListContainer').append('<table class="table" id = "inventoryList"> </table>');
+                                $('#inventoryList').html(data.view);
+                                
+                                $('#reids').val(data.inIds);
+                                $('#stockDate').text(data.searchDate);
+                                $('#goodReceivedTable').show(1000);
+                                $('#filterBox').hide(1000);
+                                $('#inventoryListContainer').append(data.view2);
+                                $('#inventoryList').DataTable(
+                                    {lengthMenu:[5,10,25,50,100],pageLength:10,language:{paginate:{previous:"<i class='mdi mdi-chevron-left'>",next:"<i class='mdi mdi-chevron-right'>"}},drawCallback:function(){$(".dataTables_paginate > .pagination").addClass("pagination-rounded")}}
+                                );
+                            }
+                        });
+
+
+                    } else {
+                        //$('#filterBox').hide(1000);
+                        //$('#csvContent').show(1000)
+                        alert('Date Range under development')
+                    }
+                });
+
+                $(document).on('click', '#filterSearch', () => {
+                    $('#filterBox').show(1000);
+                    $('#goodReceivedTable').hide(1000)
+                    $('#inventoryListItem').remove()
+                    $('#inventoryList').remove()
+                    $('#inventoryListItem_wrapper').remove()
+                    $('#inventoryList_wrapper').remove()
+                    $('#allItemLoad').val(null)
+
+                });
+
+
+
+
+
+
+            });
+
+            window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                location.reload(true);
+            }
+            });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,372 @@
+{% include "header.html" %}
+{% load static %}
+
+    <body>
+        <div class="container margin padding  w100">
+            <div class="row">
+
+
+                <!--left nav bar start-->
+                <div class="col-sm-2 pr0" style=" width: 1sww
+                    5%;">
+
+
+                    <div class="menu">
+
+                        <div class="side-bar2">
+
+                            <div class="sideMenuTop">
+                                <img class="logo" src="{%  static 'images/badas.png' %}" id="sidebar-logo">
+                                <h4 id="logo-text">CT Health Medicine</h4>
+                            </div>
+
+
+                            <div class="item" style="margin-top: 15%;">
+                                <ul class="sub-menu">
+                                    
+                                    {% if request.session.role != '3'%}
+                                    <li >
+                                        <a href=' {% url "gr_home" %}' class="sub-item stocktransferreq1"
+                                            id="stocktransferreq1">Good Received</a>
+                                    </li>
+
+                                    
+                                    <li >
+                                        <a href='{% url "in_home" %}' class="sub-item stocktransferreq1"
+                                            id="stocktransferreq1">Inventory</a>
+                                    </li>
+
+                                    {% endif %}
+                                    {% if request.session.role == 'admin'%}
+                                    <li style=" background-color: #004a88;">
+                                        <a href='{% url "registration" %}' class="sub-item stocktransferreq1"
+                                            id="stocktransferreq1">Registration</a>
+                                    </li>
+                                    {% endif %}
+
+                                    <li>
+                                        <a href='{% url "sales" %}' class="sub-item stocktransferreq1"
+                                            id="stocktransferreq1">Sales</a>
+                                    </li>
+
+                                    
+                                    <li>
+                                        <a href='{% url "logout" %}' class="sub-item stocktransferreq1"
+                                            id="stocktransferreq1">Logout</a>
+                                    </li>
+                                </ul>
+
+
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-10 px-4" style="background-color: #002E55;">
+
+                    <section id="Form" style = "display:none;">
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-8 text-center m-auto">
+                              <div class="form_container">
+                                <div class="logo login_imge">
+                                  <img src="{%  static 'images/badas 1.png' %}" />
+                                  <i class="fa-solid fa-xmark tab" style = "position: fixed;top: 10%;    right: 20%;
+                                    font-size: 30px;    cursor: pointer;"></i>
+                                </div>
+                                <div class="form_title">
+                                  <h1>Create an Account</h1>
+                                </div>
+                                <div class="form_box">
+                                    <form class="form_div" id = "register">
+                                        <div class="disable-select"><img id="loader"  style = "display:none;z-index: 10;position: fixed;top: 30%;left: 50%;width: 20%;" src="{%  static 'loader.gif' %}" alt="Proccessing....." /></div>
+                                        {% csrf_token %}
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label"
+                                                    >Name</label
+                                                >
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    aria-describedby="emailHelp"
+                                                    placeholder="Enter your full name"
+                                                    name = "name"
+                                                />
+                                            
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="dropdown justify-content-between">
+                                                    <label for="exampleInputEmail1" class="form-label"
+                                                    >Gender</label>
+                                                    <select class="form-select btn_dropdown" name = "gender"  aria-label="Default select example">
+                                                        <option selected value="0">Male</option>
+                                                        <option value="1">Female</option>
+                                                        <option value="2">Others</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputPhone" class="form-label"
+                                                    >Phone Number</label
+                                                >
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    aria-describedby="phoneHelp"
+                                                    placeholder="Enter 11 digit phone number"
+                                                    name = "phone"
+                                                />
+                                            
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputPhone" class="form-label"
+                                                    >Nid</label
+                                                >
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    id="exampleInputNid"
+                                                    aria-describedby="NidHelp"
+                                                    placeholder="Enter your nid number"
+                                                    name = "nid"
+                                                />
+                                            
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="dropdown justify-content-between">
+                                                    <label for="exampleInputEmail1" class="form-label"
+                                                    >Pharmacy Outlet</label>
+
+                                                    <select class="form-select btn_dropdown" name = "outlet" aria-label="Default select example">
+                                                    <option selected></option>
+                                                    {% for pharma in pharmacy %}
+                                                    <option value="{{pharma.id}}">{{pharma.outlet}}</option>
+                                                    {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                    
+                                        
+                                            <button type="submit" class="btn_submit">Submit</button>
+                                            <h3 class="text-center text-danger incorrect " style="display: none;">Phone number already exist!</h3>
+                                    </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </section>
+
+                    <div class="procure_purchase-tab"  style="background-color: #200303; padding-left: 5px;padding-top: 1%; margin-top: 2%;"> 
+
+                        <div class="sc">
+                       
+                            <h6 class="topnav2 ib">Registered employee of Pharmacy</h6>
+    
+                            <div class="buttonbox">
+                                
+                                <button class="fa-sharp fa-solid fa-plus buttons tab" id = "tab"></button>
+                            </div>
+                        </div>
+
+
+                        <table class="table" id="example">
+                            <thead style="background-color: #003E6C; font-size: small;">
+                                <tr>
+    
+                                    <th scope="col">SL</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Gender</th>
+                                    <th scope="col">Mobile</th>
+                                    <th scope="col">Nid</th>
+                                    <th scope="col">Pharmacy Outlet</th>
+                                    <th scope="col">Action</th>
+    
+                                </tr>
+                            </thead>
+    
+                            <tbody style="background-color: #154883" id="purchaseTable">
+
+                                {%  for user in users %}
+                                
+                                
+                            <tr>
+
+                                <th scope="col">{{ forloop.counter }}</th>
+                                <th scope="col">{{user.fullname}}</th>
+                                {% if user.gender == '1' %}
+                                    <th scope="col">Female</th>
+                                {% elif user.gender == '0' %}
+                                    <th scope="col">Male</th>
+                                {% else %}
+                                    <th scope="col">Other</th>
+                                {% endif %}
+                                <th scope="col">{{user.phone}}</th>
+                                <th scope="col">{{user.nid}}</th>
+                                <th scope="col">{{user.outlet}} </th>
+                                <th scope="col"> 
+
+                                    <div class="dropdown justify-content-between">
+                                        <select class="form-select roleList" name = "role" style=" background-color: #a2bcf7;" aria-label="Default select example">
+                                            <option selected value=" "></option>
+                                            <option value="1" {% if user.role == '1' %} selected {% endif %}>Outlet-Head</option>
+                                            <option value="2" {% if user.role == '2' %} selected {% endif %}>Supervisor</option>
+                                            <option value="3" {% if user.role == '3' %} selected {% endif %}>Retail</option>
+                                            <option value="4" {% if user.role == '4' %} selected {% endif %}>Stock & Audit</option>
+                                        </select>
+                                        <input type="hidden" value = "{{user.id}}" readonly>
+                                        <select class="form-select shiftList" name = "shift" style=" background-color: #a2bcf7;display: none;" aria-label="Default select example">
+                                            <option selected value=" "></option>
+                                            <option value="05to10" >Morning 1</option>
+                                            <option value="10to14" >Morning 2</option>
+                                            <option value="14to18" >Afternoon 1</option>
+                                            <option value="18to22" >Afternoon 2</option>
+                                            <option value="22to01" >Evening 1</option>
+                                            <option value="01to05" >Evening 2</option>
+                                            
+                                        </select>
+                                    </div>
+
+                                </th>
+                                
+                            </tr>
+                            {% endfor %}
+                                
+    
+                            </tbody>
+                        </table>
+
+                
+                
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <script >
+
+            $(document).ready(() => {
+
+                //$('#example').DataTable();
+
+                $("#register").validate({
+                    errorClass: "my-error-class",
+                        rules:{
+                            name:{
+                                required: true,
+                            },
+
+                            phone:{
+                                required: true,
+                                minlength: 11,
+                                maxlength: 11,
+                            },
+                            outlet:{
+                                required: true,
+                            },
+                        },
+                        messages:{
+                            
+                        },
+                        submitHandler : function () {
+                            $('#loader').show();
+                            $('.incorrect').hide();
+                            
+                            $.ajax({
+                                type : "POST",
+                                url : '{% url "register_user" %}',
+                                data : $('#register').serialize(),
+                                dataType : "json",
+                                success : function (data) {
+                                    console.log(data);
+                                    $('#loader').hide();
+                                    if(data === 'exist'){
+                                        $('.incorrect').show();
+                                        
+                                    }else{
+                                        window.location.reload();
+                                    }
+                                    
+                                    
+                                }
+                            });
+                        }
+                    });
+
+
+                $(document).on('click', '.tab', () => {
+
+                    $('#Form').toggle(1000)
+                });
+
+                $(document).on('change', '.roleList', function() {
+                    
+                    let role = $(this).val();
+                    let id = $(this).next('input').val();
+                    let shift = null
+                    //alert(id);
+                    if(role == '1'){
+                    $.ajax({
+                        type: "GET",
+                        url: '{% url "update_user" %}',
+                        dataType: "json",
+                        data: 'role=' + role+ '&id=' + id+ '&shift=' + shift,
+                        success: function( data ) {
+
+                            console.log(data);
+                            //$('#purchaseReqItemprice').val(data.fields.buying_price)
+                            //$('#mrp').val(data.fields.selling_price)
+                            window.location.reload();
+                        }
+                    });
+
+                    }else{
+
+                        $(this).next().next().show()
+
+                    }
+
+
+                });
+
+
+                $(document).on('change', '.shiftList', function() {
+                    
+                    let role = $(this).prev().prev().val();
+                    let id = $(this).prev('input').val();
+                    let shift = $(this).val();
+                    //alert(role);
+                    $.ajax({
+                        type: "GET",
+                        url: '{% url "update_user" %}',
+                        dataType: "json",
+                        data: 'role=' + role+ '&id=' + id+ '&shift=' + shift,
+                        success: function( data ) {
+
+                            console.log(data);
+                            //$('#purchaseReqItemprice').val(data.fields.buying_price)
+                            //$('#mrp').val(data.fields.selling_price)
+                            window.location.reload();
+                        }
+                    });
+
+
+                });
+                
+            });
+
+            window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                location.reload(true);
+            }
+            });
+        </script>
+    </body>
+
+</html>

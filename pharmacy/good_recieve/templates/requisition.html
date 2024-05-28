@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <title>Medimart</title>
+
+
+    {% block style_base %}
+        {% block layout_style %}
+            <style type="text/css">
+
+                
+                 
+
+            </style>
+        {%endblock%}
+        {% block extra_style %}{% endblock %}
+    {% endblock %}
+</head>
+{% load static %}
+<body>
+
+</body>
+        <div id="page-header" style="position :fixed; top: 0px">
+            {%block page_header%}
+
+                <h1 style = "text-align: center;font-size: 24px;">BADAS PHARMACY</h1>
+                <h3 style = "text-align: center;padding: 0px !important;margin: 0px!important;font-size: 18px;">122,Kazi nazrul Islam Avenue, Shabag,Dhaka-1000</h3>
+                <h3 style = "text-align: center; font-size: 18px;">Mobile: 01304093344</h3>
+                <h1 style = "text-align: center; font-size: 20px;">Purchase Requisition Details</h1>
+            {%endblock%}
+        </div>
+
+        {%block content%}
+        <table class="table"  style=" padding-top: 2px;padding-bottom: 2px;">
+            <tbody>
+              <tr >
+                <th style=" text-align: left;font-size: 18px;" scope="col"colspan="2">Requisition Date : {{date}}</th>
+                <th style=" text-align: right;font-size: 18px;" scope="col" colspan="2">PurChased For : {{purchaseFor}}</th>
+                
+              </tr>
+              <tr>
+                <th style=" text-align: left;font-size: 18px;" scope="col" colspan="2">Requisition ID : {{requisitionId}}</th>
+                <th style=" text-align: right;font-size: 18px;" scope="col" colspan="2">Provided By : {{reqByName}}</th>
+                
+              </tr>
+              <tr>
+                <th style=" text-align: left;font-size: 18px;" scope="col" colspan="2">Supplier : {{companyName}}</th>
+                <th style=" text-align: right;font-size: 18px;" scope="col" colspan="2"><span> Section : Pharmacy</th>
+                
+              </tr>
+            </tbody>
+            
+        </table>
+
+        <table class="table" border="1" style=" text-align: center;padding-top: 2px;padding-bottom: 2px;" repeat="1">
+            <thead>
+              <tr>
+                <th style = "font-size: 14px;" scope="col">Sl</th>
+                <th style = "font-size: 14px;" scope="col">Product Name</th>
+                <th style = "font-size: 14px;" scope="col">Generic Name</th>
+                <th style = "font-size: 14px;" scope="col">Qty</th>
+                <th style = "font-size: 14px;" scope="col">Trade Price</th>
+              </tr>
+            </thead>
+            <tbody>
+                {%  for med in meds %}
+                                    
+                                    
+                <tr>
+
+                    <th scope="col">{{ forloop.counter }}</th>
+                    <th scope="col">{{med.med_name}}</th>
+                    <th scope="col">{{med.generic}}</th>
+                    <th scope="col">{{med.quantity}}</th>
+                    <th scope="col"></th>
+                    
+                    
+                </tr>
+                {% endfor %}
+              
+              
+            </tbody>
+          </table>
+
+          {%endblock%}
+
+          <div id="page-footer">
+            {%block page_foot%}
+            {%endblock%}
+        </div>
+   
+
+</html>

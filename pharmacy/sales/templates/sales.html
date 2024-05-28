@@ -1,0 +1,617 @@
+{% include "header.html" %}
+{% load static %}
+<body>
+    <div class="container margin padding  w100">
+        <div class="row">
+
+            <!--left nav bar start-->
+            <div class="col-sm-2 pr0" style=" width: 1sww 5%;">
+
+
+                <div class="menu">
+
+                    <div class="side-bar2">
+
+                        <div class="sideMenuTop">
+                            <img class="logo" src="{%  static 'images/badas.png' %}" id="sidebar-logo">
+                            <h4 id="logo-text">CT Health Medicine</h4>
+                        </div>
+
+
+                        <div class="item" style="margin-top: 15%;">
+                            <ul class="sub-menu">
+                               
+                                {% if request.session.role != '3'%}
+                                <li >
+                                    <a href=' {% url "gr_home" %}' class="sub-item stocktransferreq1"
+                                        id="stocktransferreq1">Good Received</a>
+                                </li>
+
+                                
+                                <li >
+                                    <a href='{% url "in_home" %}' class="sub-item stocktransferreq1"
+                                        id="stocktransferreq1">Inventory</a>
+                                </li>
+
+                                {% endif %}
+                                {% if request.session.role == 'admin'%}
+                                <li>
+                                    <a href='{% url "registration" %}' class="sub-item stocktransferreq1"
+                                        id="stocktransferreq1">Registration</a>
+                                </li>
+                                {% endif %}
+
+                                <li  style=" background-color: #004a88;">
+                                    <a href='{% url "sales" %}' class="sub-item stocktransferreq1"
+                                        id="stocktransferreq1">Sales</a>
+                                </li>
+
+                                
+                                <li>
+                                    <a href='{% url "logout" %}' class="sub-item stocktransferreq1"
+                                        id="stocktransferreq1">Logout</a>
+                                </li>
+
+                            </ul>
+
+
+
+
+                        </div>
+
+                        
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-10 pl0" style="background-color: #002E55;padding: 7px !important;">
+                            
+                <div class="search-container">
+                    <form action="/action_page.php">
+                        <input class= "searchtext" type="text" placeholder="Search..." name="search">
+                        <button type="submit" style="border-color: white;"><i class="fa fa-search"></i></button>
+                        <i class="avatar fa fa-user fa-2x" aria-hidden="true"></i>
+                    </form>
+                </div>
+
+                <div class="topnav">
+                    <a class="active ib sales1" id="sales1" href="#sales">Sales</a>
+                    <!--<a class="ib salesreturn1" id="salesreturn1" href="#sales Return">Sales Return</a>
+                    <a class="ib" href="#offline Sales">Offline Sales</a>-->
+                </div>
+
+                <div class="sales-tab">
+
+                    <div class = "sc">
+                        <h6 class="topnav2 ib">Sales</h6>
+                    
+                        <div class="buttonbox">
+                            <button class="fa fa-search buttons" href="#Search"></button>
+                            <button class="fa-solid fa-filter buttons" href="#Filter"></button>
+                            <button class="fa-solid fa-print buttons" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal3"></button>
+                            <button class="fa-solid fa-download buttons" href="#Download"></button>
+                            <button class="fa-solid fa-cloud-arrow-up buttons" href="#Upload"></button>
+                            <button class="fa-regular fa-money-bill-1 buttons" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2"></button>
+                            <button class="fa-sharp fa-solid fa-plus buttons" id = "tab" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+                        </div>
+                    </div>
+
+                    <table class="table">
+                        <thead style="background-color: #003E6C; font-size: small;">
+                            <tr>
+                                <th scope="col">SL</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">VOUCHER</th>
+                                <th scope="col">DATE</th>
+                                <th scope="col">SALE BY</th>
+                                <th scope="col">BUYER</th>
+                                <th scope="col">AMOUNT</th>
+                                <th scope="col">STATUS</th>
+                                <th scope="col">ACTION</th>
+                            </tr>
+                        </thead>
+            
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>7709444</td>
+                                <td>-</td>
+                                <td>12-12-2022</td>
+                                <td>Rafiqul Islam</td>
+                                <td>-</td>
+                                <td>456.00</td>
+                                <td>Completed</td>
+                                <td><button type="button" class="btn btn-primary btn-sm">Details</button></td>
+                            </tr>
+                  
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>7709439</td>
+                                <td>-</td>
+                                <td>12-12-2022</td>
+                                <td>Md Kayum Sarkar</td>
+                                <td>-</td>
+                                <td>90.00</td>
+                                <td>Completed</td>
+                                <td><button type="button" class="btn btn-primary btn-sm">Details</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <!--credit sale modal on sales tab-->
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    
+                    <div class="modal-dialog">
+  
+                        <div class="modal-content">
+                        
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">New Sale</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form action="">
+                                
+                                    <div class="container margin padding w100">
+
+                                        <div class="row">
+                    
+                                            <div class="col-sm-6">
+                                                <h5 class="modal-text">DATE</h5>
+                                                <input class="input-design" type="date" id="" name="" value="{% now 'Y-m-d' %}" min ="{% now 'Y-m-d' %}">
+                                            </div>
+               
+                                            <div class="col-sm-6">
+                                                <h5 class="modal-text">SALE FROM</h5>
+                                                <select class="input-design" id="" name="">
+                                                    <option value=""></option>
+                                                    {% for pharma in pharmacy %}
+                                                        <option value="{{pharma.outlet}}_{{pharma.id}}_{{pharma.shortCode}}">{{pharma.outlet}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <h5 class="morebtn">Edit</h5>
+                                            </div>
+                                        </div>
+
+                                        <br>    
+
+                                        <div class="row">
+        
+                                            <div class="col-sm-6">
+                                                <h5 class="modal-text">BUYER</h5>        
+                                                <input class="input-design" id="buyer" name="">
+                                                <h5 class="morebtn">Add New Buyer</h5>
+                                            </div>
+                    
+                                            <div class="col-sm-6">
+                                                <h5 class="modal-text">VOUCHER NO</h5>
+                                                <input class="input-design" id="" name="">
+                                            </div>
+                                        </div>                 
+
+                                        <input type="checkbox"  id="newBuyer">
+    
+                                        <div class="row">
+                    
+                                            <div class="col-sm-6">
+                                                <h5 class="modal-text">ITEM</h5>
+                                                <input class="input-design" id="item" name="">
+                                                <input type="hidden" name = "coId" id = "coId" readonly>
+                                                <input type="hidden" name = "inId1" id = "inId1" readonly>
+                                                <input type="hidden" name = "inId2" id = "inId2" readonly>
+                                                <input type="hidden" name = "inStock1" id = "inStock1" readonly>
+                                                <input type="hidden" name = "inStock2" id = "inStock2" readonly>
+                                                <h5 class="morebtn">Add</h5>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <h5 class="modal-text">BATCH</h5>
+                                                <input class="input-design" id="batch" name="">
+                                            </div>
+                                        </div>
+
+                                        <br>
+                
+                                        <div class="row">
+                    
+                                            <div class="col-sm-4">
+                                                <h5 class="modal-text">UNIT</h5>
+                                                <input class="input-design2"   id="unit" name="" value = "pcs" readonly>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <h5 class="modal-text">QTY</h5>
+                                                <input class="input-design2" id="pcs" type="number"  name="" disabled>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <h5 class="modal-text">RATE</h5>
+                                                <input class="input-design2" id="rate" type="number"  name="">
+                                            </div>
+                                        </div>
+
+                                        <br>
+
+                                        <div class="row">
+                            
+                                            <div class="col-sm-4">
+                                                <h5 class="modal-text">DISCOUNT RATE(%)</h5>
+                                                <input class="input-design2" id="discount" type="number"  name="">
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <h5 class="modal-text">VAT RATE(%)</h5>
+                                                <input class="input-design2" id="vat" type="number"  name="">
+                                            </div>
+                    
+                                            <div class="col-sm-4">
+                                                <button type="button"  class="btn btn-secondary addbtn" id="credit_add" disabled>+</button>
+                                            </div>
+                                        </div>
+
+
+                                        <table class="table">
+                                            <thead style="display:none" class="tbodyresult">
+                                                <tr>
+                                                    <th scope="col">SL</th>
+                                                    <th scope="col">ITEM</th>
+                                                    <th scope="col">BATCH</th>
+                                                    <th scope="col">QTY</th>
+                                                    <th scope="col">RATE</th>
+                                                    <th scope="col">DISCOUNT</th>
+                                                    <th scope="col">VAT</th>
+                                                    <th scope="col">AMOUNT</th>
+                                                    <th scope="col">ACTION</th>
+                                                    <input type="hidden" readonly id="buyerId" name="buyerId">
+                                                </tr>
+                                            </thead>
+                            
+                                            <tbody id="product"> 
+                                            </tbody>
+                                        </table>
+
+                
+                                        <table class="table">
+                                            <thead style="display:none" class="tbodyresult">
+                                                <tr>
+                                                    <th scope="col">SUBTOTAL</th>
+                                                    <th scope="col">DISCOUNT (%)</th>
+                                                    <th scope="col">DEDUCTION</th>
+                                                    <th scope="col">VAT RATE (%)</th>
+                                                    <th scope="col">VAT AMOUNT</th>
+                                                    <th scope="col">ROUND</th>
+                                                    <th scope="col">TOTAL</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody style="display:none" id="product2"> 
+                                                <tr>
+                                                    <td><input class="pricebox" type="text"  id="subtotal" name="subtotal" readonly></td>
+                                                    <td><input class="pricebox" type="text"  id="discountamount" name="discount" readonly></td>
+                                                    <td><input class="pricebox" type="text"  id="deductionamount" name="deduction" readonly></td>
+                                                    <td><input class="pricebox" type="text"  id="vatrateamount" name="vatrate" readonly></td>
+                                                    <td><input class="pricebox" type="text"  id="vatamount" name="vatamount" readonly></td>
+                                                    <td><input class="pricebox" type="text"  id="roundamount" name="round" readonly></td>
+                                                    <td><input class="pricebox" type="text"  id="totalamount" name="total" readonly></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <div class="row">
+                    
+                                            <div class="col-sm-12">
+                                                <h5 class="modal-text">SALE BY</h5>
+                                                <input class="input-design2" id="" name="">
+                                            </div>
+                                        </div>
+
+                                        <br>
+
+                                        <div class="row">
+                    
+                                            <div class="col-sm-2">
+                                                <h5 class="modal-text">REMARKS</h5>
+                                            </div>
+                    
+                                            <div class="col-sm-10">
+                                                <textarea style="background-color: #ffffff00; border-color: #ffffff;" rows="5" cols="88"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">On Hold</button>
+                                <button type="button"  class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--sales for end -->
+            
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+    <script  src="{%  static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+
+            $( function() {
+                
+                $( "#item" ).autocomplete({
+                //source: ['Ace' , 'Ace plus', 'napa', 'napa extend']
+                    source: function( request, response ) {
+                        $.ajax({
+                        type: "GET",
+                        url: '{% url "get_med_sale" %}',
+                        dataType: "json",
+                        //data: {q: request.term},
+                        data: 'q=' + request.term,
+                        beforeSend: function() {
+                                //$("#item").css("background", "#FFF url(LoaderIcon.gif) no-repeat 165px");
+                            },
+                        success: function( data ) {
+
+                            if(data.length > 0){
+                                response(data);
+                                //console.log(data);
+                            }else{
+                                response(['No Med found']);
+                                //console.log(data);
+                            }
+                            //console.log(data);
+                        }
+                        });
+                    }
+                });
+
+
+
+                $( "#buyer" ).autocomplete({
+                //source: ['Ace' , 'Ace plus', 'napa', 'napa extend']
+                    source: function( request, response ) {
+                        $.ajax({
+                        type: "GET",
+                        url: '{% url "get_customer" %}',
+                        dataType: "json",
+                        //data: {q: request.term},
+                        data: 'q=' + request.term,
+                        beforeSend: function() {
+                                //$("#item").css("background", "#FFF url(LoaderIcon.gif) no-repeat 165px");
+                            },
+                        success: function( data ) {
+
+                            if(data.length > 0){
+                                response(data);
+                                //console.log(data);
+                            }else{
+                                response(['No Med found']);
+                                //console.log(data);
+                            }
+                            //console.log(data);
+                        }
+                        });
+                    }
+                });
+                
+            } );
+        $(document).ready(() => {
+
+            //med list
+
+            var row = 1;
+            $(document).on('click', '#credit_add', function(){
+                
+                var subTotal = $("#subtotal").val();
+                var vatAmount = $("#vatamount").val();
+                var deductionAmount = $("#deductionamount").val();
+                var totalAmount = $("#totalamount").val();
+
+                var coId = $("#coId").val();
+                var medItem = $("#item").val();
+                var medBatch = $("#batch").val();
+                var medUnit = $("#unit").val();
+                var medPcs = $("#pcs").val();
+                var medRate = $("#rate").val();
+
+                var medDiscount = $("#discount").val();
+                var medVat = $("#vat").val();
+                
+                var mainAmount = medRate * medPcs ;
+                var vatpercentAmount = (medVat * mainAmount) / 100 ;
+                var dispercentAmount = (medDiscount * mainAmount) / 100 ;
+                var medAmount = (medRate * medPcs) - dispercentAmount + vatpercentAmount ;
+
+                subTotal = (subTotal * 1) + mainAmount;
+                vatAmount = (vatAmount * 1) + vatpercentAmount;
+                deductionAmount = (deductionAmount * 1) + dispercentAmount;
+                totalAmount = (totalAmount * 1) + medAmount;
+                //totalAmount = Math.round(totalAmount);
+                
+                //console.log(subtotal);
+                if(medItem !== ''){
+                    if(medPcs !== ''){
+                    
+                    $(".tbodyresult").show();
+                    $("#product2").show();
+                    $("#subtotal").val(subTotal.toFixed(2));
+                    $("#vatamount").val(vatAmount.toFixed(2));
+                    $("#deductionamount").val(deductionAmount.toFixed(2));
+                    $("#totalamount").val(totalAmount.toFixed(2));
+
+                    //console.log(subtotal);
+                    var medDetail = '<tr>'+
+                                        '<th scope="row">'+row+'</th>'+
+                                        '<input type="hidden" value = "'+coId+'" name = "comId" id = "coId" readonly>'+
+                                        '<input type="hidden" value = "'+medItem+'" name = "medItem'+row+'" id = "medItem'+row+'" readonly>'+
+                                        '<input type="hidden" value = "'+medPcs+'" name = "medPcs'+row+'" id = "medPcs'+row+'" readonly>'+
+                                        '<input type="hidden" value = "'+medRate+'" name = "medRate'+row+'" id = "medRate'+row+'" readonly>'+
+                                        '<td>'+medItem+'</td>'+
+                                        '<td>'+medBatch+'</td>'+
+                                        '<td>'+medPcs+'</td>'+
+                                        '<td>'+medRate+'</td>'+
+                                        '<td class= "deduction_amount'+row+'" value ='+dispercentAmount.toFixed(2)+'>'+dispercentAmount.toFixed(2)+'</td>'+
+                                            '<input type="hidden" value = "'+dispercentAmount+'" name = "dispercentAmount'+row+'" id = "dispercentAmount'+row+'" readonly>'+
+                                        '<td class= "vat_amount'+row+'" value ='+vatpercentAmount.toFixed(2)+'>'+vatpercentAmount.toFixed(2)+'</td>'+
+                                            '<input type="hidden" value = "'+vatpercentAmount+'" name = "dispercentAmount'+row+'" id = "vatpercentAmount'+row+'" readonly>'+
+                                        '<td class= "med_amount'+row+'" value ='+medAmount.toFixed(2)+'>'+medAmount.toFixed(2)+'</td>'+
+                                            '<input type="hidden" value = "'+medAmount+'" name = "medAmount'+row+'" id = "medAmount'+row+'" readonly>'+
+                                        '<td><button type="button" value ='+row+'  class="btn btn-primary btn-sm creditdelete">Delete</button></td>'+
+                                    '</tr>';
+                            
+                        $('#product').append(medDetail);
+                        row++;
+
+                        $("#item").val(null)
+                        $("#discount").val(null)
+                        $("#rate").val(null)
+                        $("#pcs").val(null)
+                        $('#pcs').prop('disabled', true);
+                        $('#credit_add').prop('disabled', true);
+
+                    }else{
+                        alert('Please Insert Quantity');
+                    }   
+                }else{   
+                    alert('Please Insert a Medicine Name');
+                } 
+            }); 
+
+            $(document).on('click', '.creditdelete', function(){
+                var value = $(this).val();
+                var deletedMedAmount = $(".med_amount"+value).attr("value");
+                var deleteddisAmount = $(".deduction_amount"+value).attr("value");
+                var deletedvatAmount = $(".vat_amount"+value).attr("value");
+                var subTotal = $("#subtotal").val();
+                var totalAmount = $("#totalamount").val();
+                var dispercentAmount = $("#deductionamount").val();
+                var vatpercentAmount = $("#vatamount").val();
+                var withoutVat = (deletedMedAmount * 1) - deletedvatAmount;
+                //alert(withoutVat);
+                subTotal = subTotal - (withoutVat * 1);
+                subTotal = subTotal;
+                subTotal = subTotal - (deleteddisAmount * 1);
+                subTotal = subTotal;
+                dispercentAmount = dispercentAmount - deleteddisAmount;
+                vatpercentAmount = vatpercentAmount - deletedvatAmount;
+                totalAmount = subTotal - dispercentAmount + vatpercentAmount;
+                $("#subtotal").val(subTotal.toFixed(2));
+                $("#deductionamount").val(dispercentAmount.toFixed(2));
+                $("#vatamount").val(vatpercentAmount.toFixed(2));
+                $("#totalamount").val(totalAmount.toFixed(2));
+                //alert(med);
+                $(this).parent().parent().remove();
+            });
+
+            $(document).on('keyup', '#pcs', () => {
+                const pcs = $("#pcs").val()
+                const med = $("#item").val()
+                if(pcs !== "" && med !== ""){
+                        $('#credit_add').prop('disabled', false);
+                        
+                }else{
+                    $('#credit_add').prop('disabled', true);
+                }
+            })
+
+            $("#item").on('blur' , function(){
+                   // alert('hello');
+                   let med_name = $('#item').val();
+                   let new_name = med_name.replace(/ /g, "_");
+                   //console.log(med_name);
+                   $.ajax({
+                        type: "GET",
+                        url: '{% url "get_med_stock_info" %}',
+                        dataType: "json",
+                        data: 'med=' + new_name,
+                        success: function( data ) {
+
+                            //response(data);
+                            
+                            console.log(data);
+                            if (data.coid){
+                                $("#coId").val(data.coid)
+                                $("#inId1").val(data.med_inId1)
+                                $("#inStock1").val(data.med_inStock1)
+                                $('#pcs').prop('disabled', false);
+                                if(data.med_inStock2){
+                                    $("#inId2").val(data.med_inId2)
+                                    $("#inStock2").val(data.med_inStock2)
+                                }
+
+                            }else{
+                                alert('Stock Out')
+                                $("#item").val(null)
+                                $("#coId").val(null)
+                                $("#inId1").val(null)
+                                $("#inId2").val(null)
+                                $("#inStock1").val(null)
+                                $("#inStock2").val(null)
+                                $("#pcs").val(null)
+                                $('#pcs').prop('disabled', true);
+                                $('#credit_add').prop('disabled', true);
+                            }
+                           
+                        }
+                    });
+                });
+
+
+
+                $("#buyer").on('blur' , function(){
+                   // alert('hello');
+                   let buyer_name = $(this).val();
+                   if($("#newBuyer").prop('checked') !== true){
+                    let new_name = buyer_name.replace(/ /g, "_");
+                    //console.log(med_name);
+                    $.ajax({
+                            type: "GET",
+                            url: '{% url "get_customer_id" %}',
+                            dataType: "json",
+                            data: 'name=' + new_name,
+                            success: function( data ) {
+
+                                //response(data);
+                                
+                                console.log(data);
+                                if (data){
+                                    $("#buyerId").val(data)
+                                
+
+                                }
+                            
+                            }
+                        });
+
+                    }else{
+                        $("#buyerId").val(buyer_name)
+                    }
+
+
+                });
+            
+        });
+
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                location.reload(true);
+            }
+            });
+    </script>
+</body>
+
+</html>

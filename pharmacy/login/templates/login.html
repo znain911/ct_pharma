@@ -1,0 +1,246 @@
+{% include "header.html" %}
+{% load static %}
+
+    <body>
+         <!-- =======================================
+                 Form Part Start 
+     =========================================-->
+
+    <section id="Form">
+        <div class="container">
+          <div class="row">
+            <div class="col-6 text-center m-auto">
+              <div class="form_container">
+                <div class="logo login_imge">
+                  <img src="{%  static 'images/badas 1.png' %}" />
+                </div>
+                <div class="form_title">
+                  <h1>Welcome to CT Health Medicine</h1>
+                  <h3>Sign In your account to access</h3>
+                </div>
+                <div class="form_box">
+                    <form class="form_div" id = "submit">
+                        <div class="disable-select"><img id="loader"  style = "display:none;z-index: 10;position: fixed;top: 45%;left: 45%;width: 10%;" src="{%  static 'loader.gif' %}" alt="Proccessing....." /></div>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <div class="dropdown justify-content-between">
+                                <label  class="form-label">Role</label>
+                                <select class="form-select " name = "role" style=" background-color: #a2bcf7;" aria-label="Default select example">
+                                    <option selected></option>
+                                    <option value="1">Outlet-Head</option>
+                                    <option value="2">Supervisor</option>
+                                    <option value="3">Retail</option>
+                                    <option value="4">Stock & Audit</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label"
+                                >Phone Number</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
+                                placeholder="Enter your 11 digit phone number"
+                                name="phone"
+                            />
+                            <!-- <div id="emailHelp" class="form-text">
+                                We'll never share your email with anyone else.
+                            </div> -->
+                        </div>
+  
+                        <!-- <div class="mb-3 pass_eye">
+                            <label for="exampleInputPassword1" class="form-label"
+                                >Password</label
+                            >
+                            <input
+                                id="password"
+                                type="password"
+                                class="form-control"
+                                id="exampleInputPassword1"
+                                placeholder="**********"
+                                name="pass"
+                            />
+                            <div class="eye">
+                                <i id="togglePassword" class="fa-regular fa-eye "></i>
+                            </div>
+    
+                        </div> -->
+                        <div class="forgotpass d-flex justify-content-between">
+                        <!-- <div class="mb-3 form-check">
+                            <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="exampleCheck1"
+                            />
+                            <label class="form-check-label" for="exampleCheck1"
+                            >Remember me</label
+                            >
+                        </div> 
+                        <span>Forgot password?</span>-->
+                        </div>
+                        <button type="submit" class="btn_submit">Submit</button>
+  
+                        <!--<p class="text-center">
+                        Don’t have an account? <span class="signup">Sign Up</span>
+                        </p>-->
+
+                        <h3 class="text-center text-danger incorrect " style="display: none;">Phone Or Role incorrect!</h3>
+                        <h3 class="text-center text-danger inactive " style="display: none;">Account Inactive</h3>
+                    </form>
+
+                    <!--otp-->
+                    <form class="form_div" id = "otp" style = "display: none;">
+                        {% csrf_token %}
+                        <div class=" d-flex justify-content-center"> 
+                            <span>A code has been sent to</span> 
+                            <small id = "phoneNumber" style = "    margin-left: 2%;font-size: 16px;"></small> 
+                        </div>
+                        <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2"> 
+                            <input class="m-2 text-center form-control rounded" name = 'otp1' type="number" id="first" maxlength="1" /> 
+                            <input class="m-2 text-center form-control rounded" name = 'otp2' type="number" id="second" maxlength="1" /> 
+                            <input class="m-2 text-center form-control rounded" name = 'otp3' type="number" id="third" maxlength="1" /> 
+                            <input class="m-2 text-center form-control rounded" name = 'otp4' type="number" id="fourth" maxlength="1" /> 
+                            <input class="m-2 text-center form-control rounded" name = 'otp5' type="number" id="fifth" maxlength="1" /> 
+                        </div>
+                        <div class="mt-4 justify-content-center d-flex"> 
+                            <button class="btn btn-danger px-4 validate" type="submit">Validate</button> 
+                        
+                        </div>
+                        
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  
+      <!-- =======================================
+                   Form Part End 
+       =========================================-->
+  
+     
+  
+      <script >
+
+            
+        $(document).ready(function() {
+
+            $(".rounded").keyup(function () {
+                if (this.value.length == this.maxLength) {
+                    $(this).next('.rounded').focus();
+                }
+            });
+
+            $("#otp").validate({
+
+                errorClass: "my-error-class",
+                rules:{
+                 
+                },
+                messages:{
+                    // pass:{
+                    //     required: 'This field should not be empty',
+                    // },
+                },
+                submitHandler : function () {
+                   
+                    // your function if, validate is success
+                    $.ajax({
+                        type : "POST",
+                        url : '{% url "verify_otp" %}',
+                        data : $('#otp').serialize(),
+                        dataType : "json",
+                        success : function (data) {
+                            console.log(data)
+                            if(data.role == 'admin' || data.role == '1' || data.role == '2'|| data.role == '4'){
+                                window.location.reload('{% url "gr_home" %}')
+                            }
+                        }
+                    });
+                }
+            });
+
+
+
+            $("#submit").validate({
+                errorClass: "my-error-class",
+                rules:{
+                    phone:{
+                        required: true,
+                        minlength: 11,
+                        maxlength: 11,
+                    },
+                    role:{
+                        required: true,
+                    },
+
+                    // phone:{
+                    //     required: true,
+                    // },
+                },
+                messages:{
+                    // pass:{
+                    //     required: 'This field should not be empty',
+                    // },
+                },
+                submitHandler : function () {
+                    $('#loader').show();
+                    $('.incorrect').hide();
+                    $('.inactive').hide();
+                    // your function if, validate is success
+                    $.ajax({
+                        type : "POST",
+                        url : '{% url "verify_user" %}',
+                        data : $('#submit').serialize(),
+                        dataType : "json",
+                        success : function (data) {
+                            console.log(data);
+                            if(data.data){
+                                if(data.ac_active == true){
+                                $('#loader').hide();
+                                $('#submit').hide();
+                                $('#otp').show();
+                                $('#phoneNumber').text(data.Phone);
+                                    
+                                //window.location.reload();
+                                //window.location.reload('{% url "gr_home" %}')
+                                }else{
+                                    $('.inactive').show();
+                                    $('#loader').hide();
+                                }
+                            }else{
+                                $('#loader').hide();
+                                $('.incorrect').show();
+                            }
+                        }
+                    });
+                }
+            });
+
+
+            $('#togglePassword').click(function(e) {
+            // Prevent the button from submitting a form, if applicable
+            e.preventDefault();
+            
+            var passwordInput = $('#password');
+            var passwordInputType = passwordInput.attr('type');
+            
+            // Toggle the type attribute
+            passwordInput.attr('type', passwordInputType === 'password' ? 'text' : 'password');
+            
+            // Toggle the eye/eye-slash icon
+            $(this).find('i').toggleClass('fas fa-eye fas fa-eye-slash');
+            });
+        });
+
+      
+      </script>
+
+    </body>
+
+</html>

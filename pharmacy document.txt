@@ -1,0 +1,43 @@
+py -m venv badaspharma
+badaspharma\Scripts\activate.bat
+cd pharmacy
+py manage.py runserver
+
+for live 
+source env/bin/activate
+cd pharmacy
+python manage.py runserver 0.0.0.0:8000
+cd /etc/apache2/sites-available/000-default.conf
+/root/cthealth_pharmacy/pharmacy/pharmacy
+sudo chmod 755 /root
+
+sudo apt install libapache2-mod-wsgi-py3(after env)
+
+
+py -m pip install --upgrade pip
+
+py -m pip install Django
+
+django-admin startproject pharmacy
+
+py manage.py startapp good_recieve
+
+
+
+migration start for new typr database
+python manage.py migrate
+
+migration update
+python manage.py makemigrations
+
+to connect new table to database / any changes to be made 
+python manage.py migrate good_recieve
+python manage.py migrate inventory
+python manage.py migrate login
+python manage.py migrate sales
+
+to connect admin 
+python manage.py createsuperuser
+
+med list database configure for case insensitive
+ALTER TABLE good_recieve_medlist MODIFY med_name VARCHAR(100) COLLATE utf8_swedish_ci;
