@@ -138,12 +138,12 @@ def verify_user(request):
 
             request.session['userid'] = verify[0].id
 
-            url = "http://sms.iccteleservices.com/smsapi"
+            url = ""
 
-            payload = {"api_key" : "C20070275f66f94e214d64.69540581",
+            payload = {"api_key" : "",
                         "type" : "text",
                         "contacts" : verify[0].phone,
-                        "senderid" : "8809601000127",
+                        "senderid" : "",
                         "msg": otptext
                         }
             headers = {}
